@@ -17,7 +17,7 @@ enum VDirection {
 }
 
 
-export const useHeroMoviment = (initialPosition: IPosition) => {
+export const useHeroMoviment = (initialPosition: IPosition):IPosition => {
 
     const [{ x, y }, setPositionState] = useState(initialPosition);
     const [hDirection, setHDirection] = useState(HDirection.RIGHT);
@@ -35,7 +35,7 @@ export const useHeroMoviment = (initialPosition: IPosition) => {
     })
 
     return {
-        x, y, hDirection, vDirection
+        x, y, h:hDirection, v:vDirection
     }
 
 }

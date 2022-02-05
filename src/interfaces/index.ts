@@ -1,3 +1,4 @@
+import { ECanvasType } from "enums";
 
 
 export interface IPosition {
@@ -5,6 +6,17 @@ export interface IPosition {
     y:number;
     v?:VDirection;
     h?:HDirection
+}
+
+export interface TileProps extends IPosition{
+    value:ECanvasType,
+    coord:IPosition
+}
+
+export interface ICanvasMap {
+    position:IPosition,
+    coord:IPosition,
+    tileValue:ECanvasType
 }
 
 export enum HDirection {
@@ -23,4 +35,12 @@ export enum EDirection{
     ArrowRight = 'ArrowRight',
     ArrowDown = 'ArrowDown',
     ArrowUp = 'ArrowUp'
+}
+
+export interface IEnemyProps {
+    initialPosition:IPosition
+}
+
+export interface IHeroProps {
+    initialPosition:IPosition
 }

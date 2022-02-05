@@ -8,7 +8,7 @@ import { useState } from "react";
 
 
 
-export const useEnemyMoviment = (initialPosition:IPosition) =>{
+export const useEnemyMoviment = (initialPosition:IPosition):IPosition =>{
 
     const [{ x, y }, setPositionState] = useState(initialPosition);
     const [hDirection, setHDirection] = useState(HDirection.RIGHT);
@@ -27,7 +27,7 @@ export const useEnemyMoviment = (initialPosition:IPosition) =>{
     },500)
 
     return {
-        x, y, hDirection, vDirection
+        x, y, h:hDirection, v:vDirection
     }
 
 }
