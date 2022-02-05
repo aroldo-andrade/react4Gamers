@@ -24,7 +24,6 @@ export const useHeroMoviment = (initialPosition: IPosition):IPosition => {
     const [vDirection, setVDirection] = useState(VDirection.DEFAULT);
 
 
-
     useEventListener('keydown', ({ key, ctrlKey }: { key: string, ctrlKey: boolean }) => {
         setPositionState(oldPotision => {
             let nextMoviment = handlerNextPosition(key as EDirection, oldPotision)

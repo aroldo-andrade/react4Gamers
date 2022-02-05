@@ -37,10 +37,14 @@ export enum EDirection{
     ArrowUp = 'ArrowUp'
 }
 
-export interface IEnemyProps {
+
+export interface IGameObject {
     initialPosition:IPosition
 }
+export interface IEnemyProps extends IGameObject{
+    
+}
 
-export interface IHeroProps {
-    initialPosition:IPosition
+export interface IHeroProps extends IGameObject{
+
 }

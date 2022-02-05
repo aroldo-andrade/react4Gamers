@@ -11,7 +11,6 @@ const Hero = (props:IHeroProps) => {
 
     const { x, y, h, v } = useHeroMoviment(props.initialPosition)
 
-
     return (
         <div
             style={{

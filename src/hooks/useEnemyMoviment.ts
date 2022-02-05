@@ -14,7 +14,6 @@ export const useEnemyMoviment = (initialPosition:IPosition):IPosition =>{
     const [hDirection, setHDirection] = useState(HDirection.RIGHT);
     const [vDirection, setVDirection] = useState(VDirection.DEFAULT);
 
-
     useInterval(()=>{
         setPositionState(oldPotision => {
             let funcitons = Object.keys(EDirection);

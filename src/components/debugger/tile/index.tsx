@@ -6,9 +6,15 @@ import { TileProps } from 'interfaces'
 const Tile = (props:TileProps) => {
     const {x,y, value, coord} = props
 
-    const tileColor = {
-        [ECanvasType.w]:'red',
-        [ECanvasType.d]:'yellow'
+    const tileColor:{[index:number]:string} = {
+        [ECanvasType.wa]:'#d8c731',
+        [ECanvasType.fl]:'#4e4e4e',
+        [ECanvasType.he]:'#cd1cdd',
+        [ECanvasType.dr]:'#ffffff',
+        [ECanvasType.de]:'#ff0000',
+        [ECanvasType.md]:'#1dd3dd',
+        [ECanvasType.tr]:'#39db24',
+        [ECanvasType.ch]:'#ff7b00',
     }
 
     return <div style={{
@@ -17,7 +23,7 @@ const Tile = (props:TileProps) => {
                 top: y,
                 width: 48,
                 height: 48,
-                border: `1px solid ${tileColor[value]}`,
+                border: `2px solid ${tileColor[value]}`,
                 color: tileColor[value],
                 justifyContent: 'center',
                 alignItems: 'center',

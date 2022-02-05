@@ -1,17 +1,18 @@
+import { IGameObject } from 'interfaces';
 import React from 'react'
 import { TILE_SIZE } from 'settings/constantes';
 import './index.css'
 
-const Trap = () =>{
+const Trap = (props:IGameObject) =>{
 
-
+    const {initialPosition:{x, y}} = props
 
     return (
         <div 
             style={{
                 position: 'absolute',
-                top: TILE_SIZE * 9,
-                left: TILE_SIZE * 6,
+                top: TILE_SIZE * y,
+                left: TILE_SIZE * x,
                 width: TILE_SIZE,
                 height: TILE_SIZE,
                 backgroundImage:"url(./assets/TRAP.png)",
