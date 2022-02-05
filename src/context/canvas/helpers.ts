@@ -22,7 +22,7 @@ export const handlerNextPosition = (direction: EDirection, position: IPosition) 
 let { w, d } = ECanvasType
 export const canvas = [
     [w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w],
-    [w,d,d,w,d,d,d,d,w,d,d,d,d,d,d,d,w,d,d,w],
+    [w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w],
     [w,d,d,w,d,d,d,d,w,d,d,d,d,d,d,d,w,d,d,w],
     [w,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,w],
     [w,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,w],
