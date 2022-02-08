@@ -1,12 +1,19 @@
-import React, { Suspense } from 'react'
-import { getCanvasMap, getCharacterByCanvasType } from 'context/canvas/helpers'
+import React, { Suspense, useContext, useEffect } from 'react'
+import { canvas, getCanvasMap, getCharacterByCanvasType } from 'context/canvas/helpers'
 import { GAME_SIZE } from 'settings/constantes'
+import { ChestsContext } from 'context/chets'
 
 
 
 const Board = () => {
+    
+    const canvasMap = getCanvasMap(canvas).filter(f => !!getCharacterByCanvasType(f.tileValue))
 
-    let canvasMap = getCanvasMap().filter(f => !!getCharacterByCanvasType(f.tileValue))
+    const chestsContext = useContext(ChestsContext)
+
+    useEffect(()=>{
+        console.log('chestsContext:',chestsContext)
+    },[chestsContext])
 
     return (
         <div>

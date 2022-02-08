@@ -1,4 +1,4 @@
-import { ECanvasType } from "enums";
+import { ECanvasType, EGameObjectType, HDirection, VDirection } from "enums";
 
 
 export interface IPosition {
@@ -16,27 +16,16 @@ export interface TileProps extends IPosition{
 export interface ICanvasMap {
     position:IPosition,
     coord:IPosition,
-    tileValue:ECanvasType
+    tileValue:ECanvasType,
+    gameObjectType: EGameObjectType
 }
 
-export enum HDirection {
-    RIGHT = 1,
-    LEFT = -1,
+export interface IGameObjectStatus {
+    validMoviment: boolean
+    dead: boolean,
+    chest: boolean, 
+    door: boolean, 
 }
-
-export enum VDirection {
-    UP = -20,
-    DOWN = 20,
-    DEFAULT = 0
-}
-
-export enum EDirection{
-    ArrowLeft = 'ArrowLeft',
-    ArrowRight = 'ArrowRight',
-    ArrowDown = 'ArrowDown',
-    ArrowUp = 'ArrowUp'
-}
-
 
 export interface IGameObject {
     initialPosition:IPosition
@@ -44,7 +33,6 @@ export interface IGameObject {
 export interface IEnemyProps extends IGameObject{
     
 }
-
 export interface IHeroProps extends IGameObject{
 
 }

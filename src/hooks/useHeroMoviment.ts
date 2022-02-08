@@ -1,40 +1,35 @@
 import useEventListener from "@use-it/event-listener";
-import { handlerNextPosition } from "context/canvas/helpers";
-import { EDirection, IPosition } from "interfaces";
-import { useState } from "react";
+import { CanvasContext } from "context/canvas";
+import { ChestsContext } from "context/chets";
+import { EDirection, EGameObjectType } from "enums";
+import { IPosition } from "interfaces";
+import { useContext, useEffect, useState } from "react";
 
-
-
-enum HDirection {
-    RIGHT = 1,
-    LEFT = -1,
-}
-
-enum VDirection {
-    UP = -20,
-    DOWN = 20,
-    DEFAULT = 0
-}
 
 
 export const useHeroMoviment = (initialPosition: IPosition):IPosition => {
 
-    const [{ x, y }, setPositionState] = useState(initialPosition);
-    const [hDirection, setHDirection] = useState(HDirection.RIGHT);
-    const [vDirection, setVDirection] = useState(VDirection.DEFAULT);
+    const [positionState, setPositionState] = useState(initialPosition);
+    const [isDead, setIsDead] = useState(false);
+    const canvasContext = useContext(CanvasContext)
+    const chestsContext = useContext(ChestsContext)
 
+    useEffect(()=>{
+        console.log('isDead', isDead)
+    },[isDead])
 
+    
     useEventListener('keydown', ({ key, ctrlKey }: { key: string, ctrlKey: boolean }) => {
+        let { nextPosition, movimentStatus } = canvasContext.updateCanvas(key as EDirection, positionState, EGameObjectType.he)
         setPositionState(oldPotision => {
-            let nextMoviment = handlerNextPosition(key as EDirection, oldPotision)
-            nextMoviment.h !== undefined && setHDirection(nextMoviment.h)
-            nextMoviment.v !== undefined && setVDirection(nextMoviment.v)
-            return  (!ctrlKey) ? nextMoviment : oldPotision
+            setIsDead(movimentStatus.dead)
+            return  (!ctrlKey) ? nextPosition : oldPotision
         })
+
+        if(movimentStatus.chest)
+            chestsContext.updateOpennedChests(nextPosition)
     })
 
-    return {
-        x, y, h:hDirection, v:vDirection
-    }
+    return positionState
 
 }

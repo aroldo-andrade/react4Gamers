@@ -8,3 +8,28 @@ export enum ECanvasType {
     ch = 6, // chest
     he = 7 // hero
 }
+
+export enum EGameObjectType {
+    ti = 0, // tile
+    en = 1, // enemy 
+    he = 2 // hero,
+
+}
+
+export enum HDirection {
+    RIGHT = 1,
+    LEFT = -1,
+}
+
+export enum VDirection {
+    UP = -20,
+    DOWN = 20,
+    DEFAULT = 0
+}
+
+export enum EDirection{
+    ArrowLeft = 'ArrowLeft',
+    ArrowRight = 'ArrowRight',
+    ArrowDown = 'ArrowDown',
+    ArrowUp = 'ArrowUp'
+}

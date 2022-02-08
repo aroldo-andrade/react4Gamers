@@ -1,32 +1,23 @@
 
 import useInterval from "@use-it/interval";
-import { handlerNextPosition } from "context/canvas/helpers";
-import { EDirection, HDirection, IPosition, VDirection } from "interfaces";
-import { useState } from "react";
-
-
-
+import { CanvasContext } from "context/canvas";
+import { EDirection, EGameObjectType } from "enums";
+import { IPosition } from "interfaces";
+import { useContext, useState } from "react";
 
 
 export const useEnemyMoviment = (initialPosition:IPosition):IPosition =>{
 
-    const [{ x, y }, setPositionState] = useState(initialPosition);
-    const [hDirection, setHDirection] = useState(HDirection.RIGHT);
-    const [vDirection, setVDirection] = useState(VDirection.DEFAULT);
+    const [positionState, setPositionState] = useState(initialPosition);
+    const canvasContext = useContext(CanvasContext)
 
     useInterval(()=>{
-        setPositionState(oldPotision => {
-            let funcitons = Object.keys(EDirection);
-            const randon = Math.floor(Math.random() * 4)
-            let nextMoviment = handlerNextPosition(funcitons[randon] as EDirection, oldPotision)
-            nextMoviment.h !== undefined && setHDirection(nextMoviment.h)
-            nextMoviment.v !== undefined && setVDirection(nextMoviment.v)
-            return nextMoviment
-        })
+        let funcitons = Object.keys(EDirection);
+        const randon = Math.floor(Math.random() * 4)
+        let { nextPosition } = canvasContext.updateCanvas(funcitons[randon] as EDirection, positionState, EGameObjectType.en)
+        setPositionState(nextPosition)
     },500)
 
-    return {
-        x, y, h:hDirection, v:vDirection
-    }
+    return positionState
 
 }
