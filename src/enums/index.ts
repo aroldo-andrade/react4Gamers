@@ -6,7 +6,8 @@ export enum ECanvasType {
     md = 4, // mini demon
     de = 5, // demon
     ch = 6, // chest
-    he = 7 // hero
+    he = 7, // hero
+    drw = 8, // door win
 }
 
 export enum EGameObjectType {
@@ -15,6 +16,13 @@ export enum EGameObjectType {
     he = 2 // hero,
 
 }
+
+export enum EGameStatus {
+    won = 1,
+    lost = 2,
+    playing = 3
+}
+
 
 export enum HDirection {
     RIGHT = 1,

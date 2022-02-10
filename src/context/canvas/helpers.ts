@@ -6,7 +6,7 @@ import { ICanvasMap, IGameObject, IGameObjectStatus, IPosition } from "interface
 
 
 
-export const handlerNextPosition = (direction: EDirection, position: IPosition, gameObjectType:EGameObjectType) => {
+export const handlerNextPosition = (direction: EDirection, position: IPosition, gameObjectType:EGameObjectType, canvas: ECanvasType[][]) => {
 
     const moveFuncitions: { [index: string]: (pst: IPosition) => IPosition } = {
         ArrowLeft: (pst: IPosition) => ({ x: pst.x - 1, y: pst.y, h: HDirection.LEFT, v: VDirection.DEFAULT }),
@@ -18,7 +18,7 @@ export const handlerNextPosition = (direction: EDirection, position: IPosition, 
     let movimentStatus:IGameObjectStatus = DEFAULT_GAME_OBJECT_STATUS
     if (moveFunction){
         let nextPosition = moveFunction(position)
-        movimentStatus = checkValidMoviment(nextPosition, gameObjectType)
+        movimentStatus = checkValidMoviment(nextPosition, gameObjectType, canvas)
         if(movimentStatus.validMoviment){
             return  { nextPosition, movimentStatus }
         }
@@ -38,16 +38,16 @@ export const gameObjectTypeByCanvasType:{[index:number]:EGameObjectType} = {
     [ECanvasType.he]:EGameObjectType.he,
 } 
 
-const { wa, fl, he, md, de, tr, dr, ch } = ECanvasType
+const { wa, fl, he, md, de, tr, dr, ch, drw } = ECanvasType
 
 
 export const canvas = [
-    [wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,dr,dr,wa,wa,wa,wa,wa],
-    [wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,dr,dr,wa,wa,wa,wa,wa],
-    [wa,fl,fl,wa,ch,fl,fl,fl,wa,fl,fl,fl,fl,fl,fl,fl,wa,fl,fl,wa],
+    [wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,dr,drw,wa,wa,wa,wa,wa],
+    [wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,drw,drw,wa,wa,wa,wa,wa],
+    [wa,fl,fl,wa,wa,fl,fl,fl,wa,fl,fl,fl,fl,fl,fl,fl,wa,fl,fl,wa],
     [wa,fl,de,fl,fl,tr,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,md,fl,fl,fl,fl,tr,fl,wa],
-    [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
+    [wa,fl,fl,fl,fl,fl,ch,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,md,fl,fl,fl,de,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,md,fl,fl,fl,wa],
@@ -55,10 +55,10 @@ export const canvas = [
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,tr,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,de,fl,fl,fl,fl,fl,fl,fl,fl,tr,fl,wa],
-    [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,md,fl,fl,fl,fl,fl,wa],
+    [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,ch,fl,md,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,tr,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
-    [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,de,fl,fl,fl,fl,fl,de,fl,wa],
+    [wa,ch,fl,fl,fl,fl,fl,fl,fl,fl,fl,de,fl,fl,fl,fl,fl,de,fl,wa],
     [wa,he,wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,fl,wa],
     [wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa,wa]
@@ -79,7 +79,9 @@ export const getCanvasMap = (_canvas:ECanvasType[][]) =>{
     return canvasMap
 }
 
-
+export const getInitialChestsCount = () =>{
+    return getCanvasMap(canvas).filter(f => f.tileValue === ECanvasType.ch)?.length ?? 0
+}
 
 export const getCharacterByCanvasType = (type:ECanvasType) =>{
     let componentByCanvasType:{[index:number]:React.LazyExoticComponent<ComponentType<IGameObject>>} = {
@@ -87,16 +89,18 @@ export const getCharacterByCanvasType = (type:ECanvasType) =>{
         [ECanvasType.de]:React.lazy(() => import('components/demon')),
         [ECanvasType.md]:React.lazy(() => import('components/miniDemon')),
         [ECanvasType.tr]:React.lazy(() => import('components/trap')),
-        [ECanvasType.ch]:React.lazy(() => import('components/chest'))
+        [ECanvasType.ch]:React.lazy(() => import('components/chest')),
+        [ECanvasType.dr]:React.lazy(() => import('components/door'))
+
     }
     return componentByCanvasType[type]
 }
 
 
-export const checkValidMoviment = (nextPosition:IPosition, gameObjectType:EGameObjectType):IGameObjectStatus =>{
+export const checkValidMoviment = (nextPosition:IPosition, gameObjectType:EGameObjectType, canvasProp: ECanvasType[][]):IGameObjectStatus =>{
 
     let {x,y} = nextPosition
-    let nextPositionCanvasType = canvas[y][x]
+    let nextPositionCanvasType = canvasProp[y][x]
 
     let gameObjectTypeFunctions:{[index:number]:(value: ECanvasType) => IGameObjectStatus} = {
         [EGameObjectType.en]:getkEnemyValidMoviments,
@@ -111,22 +115,23 @@ export const checkValidMoviment = (nextPosition:IPosition, gameObjectType:EGameO
 }
 
 export const getkHeroValidMoviments = (value:ECanvasType):IGameObjectStatus =>{
-    let {fl, ch, tr, de, md, dr} = ECanvasType
+    let {fl, ch, tr, de, md, drw} = ECanvasType
     return {
         validMoviment: [fl, ch, tr, de, md].includes(value),
         dead:[tr,md,de].includes(value),
         chest:[ch].includes(value), 
-        door:[dr].includes(value), 
+        door:[drw].includes(value),
     }
 }
+
 
 export const getkEnemyValidMoviments = (value:ECanvasType):IGameObjectStatus =>{
     let { fl, he } = ECanvasType
     return {
         validMoviment: [fl, he].includes(value),
-        dead:false,
+        dead:[he].includes(value),
         chest:false, 
-        door:false, 
+        door:false,
     }
 }
 

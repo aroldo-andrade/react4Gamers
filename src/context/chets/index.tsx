@@ -1,3 +1,4 @@
+import { getInitialChestsCount } from 'context/canvas/helpers';
 import { IPosition } from 'interfaces';
 import React, { createContext, ReactNode, useState } from 'react';
 
@@ -10,7 +11,7 @@ export interface IChetsContext {
     updateOpennedChests:(position:IPosition) => void
 }
 const CHESTS_CONTEXT_DEFAULT_VALUE:IChetsContext = {
-    totalChets: 2,
+    totalChets: getInitialChestsCount(),
     opennedChests:{
         total:0,
         positions:[]

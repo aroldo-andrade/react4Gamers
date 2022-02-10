@@ -27,6 +27,9 @@ export interface IGameObjectStatus {
     door: boolean, 
 }
 
+
+
+
 export interface IGameObject {
     initialPosition:IPosition
 }

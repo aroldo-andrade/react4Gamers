@@ -1,27 +1,27 @@
+import React, { useContext } from 'react'
 import { ChestsContext } from 'context/chets';
 import { IGameObject } from 'interfaces';
-import React, { useContext } from 'react'
 import { TILE_SIZE } from 'settings/constantes';
-import './index.css'
 
 const Chest = (props:IGameObject) =>{
 
     const {initialPosition:{x, y}} = props
 
     const chestsContext = useContext(ChestsContext)
-    const shouldAnimate = chestsContext.opennedChests.positions.find(f => f.x === x && f.y === y)
+    const opennedDoor = chestsContext.opennedChests.total === chestsContext.totalChets
+
+    const backgroundImage = opennedDoor ? 'DOOR-OPEN' : 'DOOR'
 
     return (
         <div 
             style={{
                 position: 'absolute',
                 top: TILE_SIZE * y,
-                left: TILE_SIZE * x,
-                width: TILE_SIZE,
-                height: TILE_SIZE,
-                backgroundImage:"url(./assets/CHEST.png)",
+                left: (TILE_SIZE * x) - TILE_SIZE,
+                width: TILE_SIZE*4,
+                height: TILE_SIZE*3,
+                backgroundImage:`url(./assets/${backgroundImage}.png)`,
                 backgroundRepeat:'no-repeat',
-                animation: shouldAnimate ? 'chest-animation 1s steps(2, end) forwards' : '',
             }}    
         />
     )

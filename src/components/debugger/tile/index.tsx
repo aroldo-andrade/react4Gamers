@@ -11,6 +11,7 @@ const Tile = (props:TileProps) => {
         [ECanvasType.fl]:'#4e4e4e',
         [ECanvasType.he]:'#cd1cdd',
         [ECanvasType.dr]:'#ffffff',
+        [ECanvasType.drw]:'#ffffff',
         [ECanvasType.de]:'#ff0000',
         [ECanvasType.md]:'#1dd3dd',
         [ECanvasType.tr]:'#39db24',

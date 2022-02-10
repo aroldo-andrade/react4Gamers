@@ -18,6 +18,9 @@ export const useEnemyMoviment = (initialPosition:IPosition):IPosition =>{
         setPositionState(nextPosition)
     },500)
 
+
+   
+
     return positionState
 
 }
